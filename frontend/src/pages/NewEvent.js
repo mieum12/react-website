@@ -30,6 +30,13 @@ export async function action({ request, params }) {
     body: JSON.stringify(eventData),
   });
 
+  //백엔드에서 검증오류에 대응하기: 백엔드에서 설정한 검증 상태 코드 = 422 오류코드임을 확인
+  //error 페이지를 따로 표시하지 않으려 할때 이렇게 response를 리턴한다.
+  //에러페이지로 가게되면 사용자의 글이 전부 날아가기때문에 사용자 경험에 큰 문제를 야기함
+  if (response.status === 422) {
+    return response;
+  }
+
   if (!response.ok) {
     throw json({ message: "Could not save event.." }, { status: 500 });
   }

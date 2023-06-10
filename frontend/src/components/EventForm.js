@@ -1,8 +1,17 @@
-import { Form, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
+  //가까운 action(NewEvent에 있음)이 리턴한 데이터에 접근할 수 있게 해줌
+  //거기서 오류를 response로 리턴
+  const data = useActionData();
+
   const navigate = useNavigate();
   const navigation = useNavigation();
 
@@ -16,6 +25,16 @@ function EventForm({ method, event }) {
 
   return (
     <Form method="post" className={classes.form}>
+      {/* action이 준 data를 확인하고 폼을 제출했다면 리턴 */}
+      {data && data.errors && (
+        <ul>
+          {/* error 객체 안의 모든 키를 반복하게 하고 데이터를 매핑, 에러 메세지 출력
+          즉, 백엔드에서 받을 수 있는 검증 오류 메세지 출력 */}
+          {Object.values(data.errors).map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Title</label>
         <input
