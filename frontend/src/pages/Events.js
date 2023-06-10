@@ -3,6 +3,11 @@ import EventsList from "../components/EventsList";
 
 function EventsPage() {
   const data = useLoaderData();
+
+  //에러가 났을때 내보내는 것
+  // if (data.isError) {
+  //   <p>{data.message}</p>;
+  // }
   const events = data.events;
 
   return <EventsList events={events} />;
@@ -22,11 +27,12 @@ export async function loader() {
   //response에서 수작업으로 데이터를 추출할 필요 없이
   //response의 일부인 데이터를 자동으로 가져다준다
   if (!response.ok) {
-    // ...
+    //오류가ㅏ 있다는걸 표시하는 데이터를 리턴
+    // return { isError: true, message: "could not fetch events!" };
+    throw new Response(
+      JSON.stringify({ message: "could not fetch events!" }, { status: 500 })
+    );
   } else {
-    const resData = await response.json();
-    const res = new Response("any data", { status: 201 });
-
-    return res;
+    return response;
   }
 }
