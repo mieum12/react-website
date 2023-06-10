@@ -9,7 +9,7 @@ function ErrorPage() {
   let message = "비상 비상~ 뭔가 잘못됐음!";
 
   if (error.status === 500) {
-    message = JSON.parse(error.data).message;
+    message = error.data.message;
   }
 
   if (error.status === 404) {

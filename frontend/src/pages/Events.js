@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, json } from "react-router-dom";
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
@@ -29,9 +29,14 @@ export async function loader() {
   if (!response.ok) {
     //오류가ㅏ 있다는걸 표시하는 데이터를 리턴
     // return { isError: true, message: "could not fetch events!" };
-    throw new Response(
-      JSON.stringify({ message: "could not fetch events!" }, { status: 500 })
-    );
+    // throw new Response(
+    //   JSON.stringify({ message: "could not fetch events!" }, { status: 500 })
+    // );
+
+    //json()은 json형식의 데이터가 포함된 파일에서 response 객체를 생성하는 함수이다
+    //이 안에 response에 포함 될 데이터를 넣어준다
+    //response 데이터를 쓰는 곳에서 수동으로 .parse() 즉 파싱해줄 필요없다
+    return json({ message: "could not fetch events!" }, { status: 500 });
   } else {
     return response;
   }
