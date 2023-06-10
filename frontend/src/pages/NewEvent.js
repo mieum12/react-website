@@ -7,6 +7,7 @@ function NewEventPage() {
 
 export default NewEventPage;
 
+//
 //데이터를 백엔드로 제출하는 것을 해주는 action() 함수
 //제출된 폼 데이터를 추출한다
 export async function action({ request, params }) {

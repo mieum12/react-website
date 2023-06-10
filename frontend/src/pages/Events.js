@@ -36,7 +36,10 @@ export async function loader() {
     //json()은 json형식의 데이터가 포함된 파일에서 response 객체를 생성하는 함수이다
     //이 안에 response에 포함 될 데이터를 넣어준다
     //response 데이터를 쓰는 곳에서 수동으로 .parse() 즉 파싱해줄 필요없다
-    return json({ message: "could not fetch events!" }, { status: 500 });
+    return json(
+      { message: "게시글 목록을 가져올 수 없습니다!" },
+      { status: 500 }
+    );
   } else {
     return response;
   }
