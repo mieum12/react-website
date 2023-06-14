@@ -20,7 +20,7 @@ function EventsPage() {
 
 export default EventsPage;
 
-export async function loadEvents() {
+async function loadEvents() {
   const response = await fetch("http://localhost:8080/events");
 
   //위에서 받은 response 응답을 loader에서 리턴하는 것이다
