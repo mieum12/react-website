@@ -13,10 +13,10 @@ router.get("/", async (req, res, next) => {
   try {
     const events = await getAll();
 
-    //
-    setTimeout(() => {
-      res.json({ events: events });
-    }, 2000);
+    // Loading test!!
+    // setTimeout(() => {
+    res.json({ events: events });
+    // }, 2000);
   } catch (error) {
     next(error);
   }
