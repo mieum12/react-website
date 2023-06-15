@@ -1,19 +1,47 @@
-import { useState } from 'react';
-import { Form } from 'react-router-dom';
+import { useState } from "react";
+import {
+  Form,
+  Link,
+  useSearchParams,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 
-import classes from './AuthForm.module.css';
+import classes from "./AuthForm.module.css";
 
 function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
+  //Authentication에서 422,401에러 등( 이미 존재하는 회원입니다 어쩌구) 핸들
+  //문제가 있다면 에러 응답이 리턴될 것
+  const data = useActionData();
 
-  function switchAuthHandler() {
-    setIsLogin((isCurrentlyLogin) => !isCurrentlyLogin);
-  }
+  //로그인/회원가입 중을 알려주기(navigation에는 상태를 알려주는 함수가 내장됨)
+  const navigation = useNavigation();
+
+  //1.이렇게 상태관리로 로그인/회원가입 전환
+  // const [isLogin, setIsLogin] = useState(true);
+  // function switchAuthHandler() {
+  //   setIsLogin((isCurrentlyLogin) => !isCurrentlyLogin);
+  // }
+  //
+  //2. 쿼리 파라미터 이용
+  const [searchParams] = useSearchParams();
+  const isLogin = searchParams.get("mode") === "login";
+
+  const isSubmitting = navigation.state === "submitting";
 
   return (
     <>
       <Form method="post" className={classes.form}>
-        <h1>{isLogin ? 'Log in' : 'Create a new user'}</h1>
+        <h1>{isLogin ? "Log in" : "Create a new user"}</h1>
+        {/* 에러가 있다면! */}
+        {data && data.errors && (
+          <ul>
+            {Object.values(data.errors).map((err) => (
+              <li key={err}>{err}</li>
+            ))}
+          </ul>
+        )}
+        {data && data.message && <p>{data.message}</p>}
         <p>
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" required />
@@ -23,10 +51,20 @@ function AuthForm() {
           <input id="password" type="password" name="password" required />
         </p>
         <div className={classes.actions}>
+          {/* 
+          1. useState 상태관리
           <button onClick={switchAuthHandler} type="button">
-            {isLogin ? 'Create new user' : 'Login'}
+            {isLogin ? "Create new user" : "Login"}
           </button>
-          <button>Save</button>
+          
+          2. 쿼리파라미터*/}
+          <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
+            {isLogin ? "Create new user" : "Login"}
+          </Link>
+          <button disabled={isSubmitting}>
+            {" "}
+            {isSubmitting ? "Submitting..." : "Save"}
+          </button>
         </div>
       </Form>
     </>
