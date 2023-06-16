@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
+import { getAuthToken } from "../util/auth";
 
 function EventForm({ method, event }) {
   //가까운 action(NewEvent에 있음)이 리턴한 데이터에 접근할 수 있게 해줌
@@ -119,10 +120,14 @@ export async function action({ request, params }) {
     url = "http://localhost:8080/events/" + eventId;
   }
 
+  const token = getAuthToken();
+
   const response = await fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
+      //이벤트 편집 시에도 토큰 보냄
+      Authorization: "Bearer " + token,
     },
     body: JSON.stringify(eventData),
   });

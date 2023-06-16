@@ -52,7 +52,13 @@ export async function action({ request }) {
     throw json({ message: "인증된 사용자가 아닙니다!" }, { status: 500 });
   }
   //모든게 지나면 사용자 생성 혹은 가입에 성공!!
-  //백엔드에서 얻는 token을 여기서 관리해야한다
+  //백엔드에서 주는 token을 여기서 관리해야한다
+  const resData = await response.json();
+  const token = resData.token;
+
+  //해당 토큰을 브라우저 저장소에 저장, key를 부여하고 추출한 토큰을 여기에 저장
+  //이제 필요할 때마다 꺼내 쓸 수 있다
+  localStorage.setItem("token", token);
   //일단 홈으로 가게함
   return redirect("/");
 }

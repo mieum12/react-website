@@ -8,6 +8,7 @@ import {
 import EventItem from "../components/EventItem";
 import EventsList from "../components/EventsList";
 import { Suspense } from "react";
+import { getAuthToken } from "../util/auth";
 
 function EventDetailPage() {
   //useParams는 현재 활성 중인 라우트 파라미터에 접근 가능하다, URL에 인코딩된 값들에 접근해서 다이나믹 라우터 사용 가능
@@ -82,10 +83,16 @@ export async function loader({ request, params }) {
 
 export async function action({ params, request }) {
   const eventId = params.eventId;
+  //토큰 추출함수를 불러서 변수에 저장하기
+  const token = getAuthToken();
 
   const response = await fetch("http://localhost:8080/events/" + eventId, {
     //클라이언트 측에서 요청에 사용된 메서드(delete)와 같다고 말해줌
     method: request.method,
+    headers: {
+      //로그인 시 토큰을 저장하게 되고, 삭제 요청시 토큰을 보낸다
+      Authorization: "Bearer " + token,
+    },
   });
 
   if (!response.ok) {

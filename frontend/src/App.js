@@ -16,12 +16,17 @@ import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter";
 import AuthenticationPage, {
   action as authAction,
 } from "./pages/Authentication";
+import { action as logoutAction } from "./pages/Logout";
+import { tokenLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    // 토큰에 대해 늘 최신 상태를 확보할 수 있게 함
+    loader: tokenLoader,
+    id: "root",
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -62,6 +67,10 @@ const router = createBrowserRouter([
         path: "newsletter",
         element: <NewsletterPage />,
         action: newsletterAction,
+      },
+      {
+        path: "logout",
+        action: logoutAction,
       },
     ],
   },
