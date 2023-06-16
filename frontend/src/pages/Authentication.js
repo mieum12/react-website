@@ -59,6 +59,10 @@ export async function action({ request }) {
   //해당 토큰을 브라우저 저장소에 저장, key를 부여하고 추출한 토큰을 여기에 저장
   //이제 필요할 때마다 꺼내 쓸 수 있다
   localStorage.setItem("token", token);
+  //만료시간 계산해서 로컬스토리지에 저장 (새로고침해도 계속 유지)
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1);
+  localStorage.setItem("expiration", expiration.toISOString());
   //일단 홈으로 가게함
   return redirect("/");
 }

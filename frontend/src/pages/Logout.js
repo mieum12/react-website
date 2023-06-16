@@ -4,5 +4,6 @@ import { redirect } from "react-router-dom";
 //이제 App.js에 작업만 만들고 컴포넌트는 없는 새로운 라우터를 만든다
 export function action() {
   localStorage.removeItem("token");
+  localStorage.removeItem("expiration");
   return redirect("/");
 }
