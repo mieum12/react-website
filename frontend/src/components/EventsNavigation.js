@@ -16,7 +16,7 @@ function EventsNavigation() {
               }
               end
             >
-              전체 글 보기
+              게시판
             </NavLink>
           </li>
           {token && (

@@ -7,7 +7,7 @@ function EventsList({ events }) {
 
   return (
     <div className={classes.events}>
-      <h1>All Events</h1>
+      <h2>모든 게시물 보기</h2>
       <ul className={classes.list}>
         {events.map((event) => (
           <li key={event.id} className={classes.item}>
